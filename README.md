@@ -339,7 +339,6 @@ text(20,max(vy16[idx])-1,"    5.6%",col="black",pos=3)
 src="fida.markdown_strict_files/figure-markdown_strict/figure-densite-3.png"
 data-fig-align="center" />
 
-# random forest
 
 <!-- ```{r} -->
 <!-- RF = randomForest(y~. ,data=frenchmotor) -->
