@@ -357,7 +357,15 @@ nom = dfvi$nom
 nom[1] = "bs(LicAge)"
 nom[3] = "bs(DrivAge)"
 nom[7] = "bs(BonusMalus)"
+nom
+```
 
+     [1] "bs(LicAge)"     "VehPrice"       "bs(DrivAge)"    "RiskVar"       
+     [5] "VehMaxSpeed"    "VehAge"         "bs(BonusMalus)" "SocioCateg"    
+     [9] "VehClass"       "VehBody"        "VehUsage"       "Garage"        
+    [13] "VehEngine"      "MariStat"       "VehEnergy"      "HasKmLimit"    
+
+``` r
 n=nrow(subfrenchmotor)
 library(splines)
 
@@ -387,7 +395,14 @@ sortie}
 
 N = 0:15
 M =Vectorize(metric_gender)(N)
+
+k=15
+vr = paste(nom[1:k],collapse = " + ")
+fm = paste("y ~ ",vr,sep="")
+fm
 ```
+
+    [1] "y ~ bs(LicAge) + VehPrice + bs(DrivAge) + RiskVar + VehMaxSpeed + VehAge + bs(BonusMalus) + SocioCateg + VehClass + VehBody + VehUsage + Garage + VehEngine + MariStat + VehEnergy"
 
 ``` r
 plot(N,M[1,]*100,xlab="Nombre de variables explicatives (sans le genre)",ylab=
