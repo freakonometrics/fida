@@ -1,4 +1,4 @@
-# Risques
+# FIDA
 
 ``` r
 library(InsurFair)
@@ -14,7 +14,7 @@ data(frenchmotor)
 data(COLORS)
 ```
 
-# logistic
+# Régression logistique (avec lissage ou pas)
 
 ``` r
 RF = randomForest(y~. ,data=frenchmotor)
@@ -339,107 +339,114 @@ text(20,max(vy16[idx])-1,"    5.6%",col="black",pos=3)
 src="fida.markdown_strict_files/figure-markdown_strict/figure-densite-3.png"
 data-fig-align="center" />
 
+# genre
 
-<!-- ```{r} -->
-<!-- RF = randomForest(y~. ,data=frenchmotor) -->
-<!-- varImpPlot(RF , sort = TRUE) -> vi -->
-<!-- dfvi = data.frame(nom = names(frenchmotor)[-16], g = as.numeric(vi)) -->
-<!-- dfvi = dfvi[rev(order(dfvi$g)),] -->
-<!-- nom = dfvi$nom -->
-<!-- nom[1] = "bs(LicAge)" -->
-<!-- nom[3] = "bs(DrivAge)" -->
-<!-- nom[7] = "bs(BonusMalus)" -->
-<!-- n=nrow(frenchmotor) -->
-<!-- library(splines) -->
-<!-- frenchmotorbruit = frenchmotor -->
-<!-- frenchmotorbruit$y = (frenchmotorbruit$y=="1")+rbeta(n,1,9)/1000 -->
-<!-- metric= function(k =3){ -->
-<!--   sortie=c(0,0,1,1,1,1,1,1,0) -->
-<!--   if(k>0){ -->
-<!-- varj = which(names(frenchmotorbruit) %in% c("y",dfvi$nom[1:k])) -->
-<!-- frenchmotorbruit2 = frenchmotorbruit[,varj] -->
-<!-- reg = randomForest(y~., data=frenchmotorbruit2) -->
-<!-- yp = predict(reg)-1/10000 -->
-<!-- v1 = var(yp) -->
-<!-- idx9 = which(yp>quantile(yp,.9)) -->
-<!-- idx1 = which(yp<quantile(yp,.1)) -->
-<!-- v2 = var(yp[idx9]) -->
-<!-- m1 = mean(yp[idx9])/mean(yp) -->
-<!-- m2 = mean(yp[idx9])/mean(yp[idx1]) -->
-<!-- q1 = quantile(yp,.9)-quantile(yp,.1) -->
-<!-- q2 = quantile(yp,.9)/quantile(yp,.1) -->
-<!-- q3 = quantile(yp,.9)/mean(yp) -->
-<!-- q4 = quantile(yp,.99)/mean(yp) -->
-<!-- z = mean(yp>2*mean(yp)) -->
-<!-- sortie = c(v1,v2,m1,m2,q1,q2,q3,q4,z) -->
-<!--   } -->
-<!--   sortie} -->
-<!-- N = 0:16 -->
-<!-- M2 =Vectorize(metric)(N) -->
-<!-- ``` -->
-<!-- ```{r, fig.height = 5, fig.width = 5, fig.align = "center",warning = FALSE} -->
-<!-- plot(N,M2[1,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Variance des primes",type="b",pch=19,col=COLORS[1]) -->
-<!-- lines(N,M[1,],col=COLORS[1]) -->
-<!-- plot(N,M2[3,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Espérance du top 10% / Espérance globale",type="b",pch=19,col=COLORS[2]) -->
-<!-- plot(N,M2[4,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Espérance du top 10% / Espérance du bottom 10%",type="b",pch=19,col=COLORS[3]) -->
-<!-- lines(N,M[4,],col=COLORS[3]) -->
-<!-- plot(N,M2[5,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Différence Q90%-Q10%",type="b",pch=19,col=COLORS[4]) -->
-<!-- library(kdensity) -->
-<!-- plot(N,M2[6,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Ratio des quantiles Q90% / Q10%",type="b",pch=19,col=COLORS[4]) -->
-<!-- lines(N,M[6,],col=COLORS[4]) -->
-<!-- plot(N,M2[8,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Ratio Q99% / moyenne",type="b",pch=19,col=COLORS[4]) -->
-<!-- lines(N,M[8,],col=COLORS[4]) -->
-<!-- plot(N,M2[9,],xlab="Nombre de variables explicatives",ylab= -->
-<!--        "Proba >17%",type="b",pch=19,col=COLORS[4]) -->
-<!-- lines(N,M[9,],col=COLORS[4]) -->
-<!-- M2[9,]*100 -->
-<!-- ``` -->
-<!-- ```{r, fig.height = 5, fig.width = 5, fig.align = "center",warning = FALSE} -->
-<!-- k=2 -->
-<!-- varj = which(names(frenchmotorbruit) %in% c("y",dfvi$nom[1:k])) -->
-<!-- frenchmotorbruit2 = frenchmotorbruit[,varj] -->
-<!-- reg = randomForest(y~., data=frenchmotorbruit2) -->
-<!-- yp = predict(reg)-1/10000 -->
-<!-- idx = which((yp>0)&(yp<1)) -->
-<!-- yp = sample(yp[idx],size=1000) -->
-<!-- d32 = kdensity::kdensity(yp, kernel = "beta") -->
-<!-- ``` -->
-<!-- ```{r, fig.height = 5, fig.width = 5, fig.align = "center",warning = FALSE} -->
-<!-- k=7 -->
-<!-- varj = which(names(frenchmotorbruit) %in% c("y",dfvi$nom[1:k])) -->
-<!-- frenchmotorbruit2 = frenchmotorbruit[,varj] -->
-<!-- reg = randomForest(y~., data=frenchmotorbruit2) -->
-<!-- yp = predict(reg)-1/10000 -->
-<!-- idx = which((yp>0)&(yp<1)) -->
-<!-- yp = sample(yp[idx],size=1000) -->
-<!-- d92 = kdensity::kdensity(yp, kernel = "beta") -->
-<!-- ``` -->
-<!-- ```{r, fig.height = 5, fig.width = 5, fig.align = "center",warning = FALSE} -->
-<!-- k=16 -->
-<!-- varj = which(names(frenchmotorbruit) %in% c("y",dfvi$nom[1:k])) -->
-<!-- frenchmotorbruit2 = frenchmotorbruit[,varj] -->
-<!-- reg = randomForest(y~., data=frenchmotorbruit2) -->
-<!-- yp = predict(reg)-1/10000 -->
-<!-- idx = which((yp>0)&(yp<1)) -->
-<!-- yp = sample(yp[idx],size=1000) -->
-<!-- d162 = kdensity::kdensity(yp, kernel = "beta") -->
-<!-- ``` -->
-<!-- ```{r, fig.height = 5, fig.width = 5, fig.align = "center",warning = FALSE} -->
-<!-- vx =seq(0,.4,length=251) -->
-<!-- vy32= d32(vx) -->
-<!-- vy92= d92(vx) -->
-<!-- vy162=d162(vx) -->
-<!-- plot(vx*100,vy32,col=COLORS[3],lwd=2,type="l",xlim=c(0,30), -->
-<!--      xlab="Fréquence d'accident (%)",ylab="",axes=FALSE,ylim=c(0,max(vy3))) -->
-<!-- axis(1) -->
-<!-- legend("topright",bty="n",c("3","7","16"), -->
-<!--        col=c(COLORS[c(3,4)],"black"),lwd=c(2,1,2)) -->
-<!-- lines(100*vx,vy92,col=COLORS[4]) -->
-<!-- lines(100*vx,vy162,lwd=2) -->
-<!-- ``` -->
+``` r
+library(randomForest)
+subfrenchmotor= frenchmotor[,-which(names(frenchmotor)=="sensitive")]
+RF = randomForest(y~. ,data=subfrenchmotor)
+varImpPlot(RF , sort = TRUE) -> vi
+```
+
+![](fida.markdown_strict_files/figure-markdown_strict/unnamed-chunk-4-1.png)
+
+``` r
+dfvi = data.frame(nom = names(subfrenchmotor)[-15], g = as.numeric(vi))
+dfvi = dfvi[rev(order(dfvi$g)),]
+nom = dfvi$nom
+nom[1] = "bs(LicAge)"
+nom[3] = "bs(DrivAge)"
+nom[7] = "bs(BonusMalus)"
+
+n=nrow(subfrenchmotor)
+library(splines)
+
+idx_F =which(frenchmotor$sensitive == "Female")
+idx_M =which(frenchmotor$sensitive == "Male")
+
+metric_gender= function(k =3){
+  if(k==0){
+reg = glm(y~1, family=binomial, data=subfrenchmotor)
+yp = predict(reg, type="response")
+yp_F = yp[idx_F]
+yp_M = yp[idx_M]
+sortie = c(mean(yp_F),mean(yp_M),quantile(yp_F,c(.1,.9)),quantile(yp_M,c(.1,.9)))
+names(sortie)[1:2]=c("mean_F","mean_M")
+  }
+  if(k>0){
+vr = paste(nom[1:k],collapse = " + ")
+fm = paste("y ~ ",vr,sep="")
+reg = glm(fm, family=binomial, data=subfrenchmotor)
+yp = predict(reg, type="response")
+yp_F = yp[idx_F]
+yp_M = yp[idx_M]
+sortie = c(mean(yp_F),mean(yp_M),quantile(yp_F,c(.1,.9)),quantile(yp_M,c(.1,.9)))
+names(sortie)[1:2]=c("mean_F","mean_M")
+  }
+sortie}
+
+N = 0:15
+M =Vectorize(metric_gender)(N)
+```
+
+``` r
+plot(N,M[1,]*100,xlab="Nombre de variables explicatives (sans le genre)",ylab=
+       "Fréquence moyenne d'accident prédite (%)",type="b",pch=19,col=COLORS[2],ylim=c(8.12,9))
+lines(N,M[2,]*100,type="b",pch=15,col=COLORS[3])
+abline(h=mean(frenchmotor[idx_F,"y"]=="1")*100,col=scales::alpha(COLORS[2],.35),lty=2)
+abline(h=mean(frenchmotor[idx_M,"y"]=="1")*100,col=scales::alpha(COLORS[3],.35),lty=2)
+text(14,mean(frenchmotor[idx_F,"y"]=="1")*100,"femmes",col=COLORS[2],pos=3)
+text(14,mean(frenchmotor[idx_M,"y"]=="1")*100,"hommes",col=COLORS[3],pos=1)
+```
+
+<img
+src="fida.markdown_strict_files/figure-markdown_strict/discrim-1.png"
+data-fig-align="center" />
+
+``` r
+plot(N,M[1,]*100,xlab="Nombre de variables explicatives (sans le genre)",ylab=
+       "Fréquence moyenne d'accident prédite (%)",type="b",pch=19,col=COLORS[2],ylim=c(8.12,9))
+abline(v=(0:3)*5,col=scales::alpha("light blue",.4))
+abline(h=seq(8,9.2,by=.2),col=scales::alpha("light blue",.4))
+lines(N,M[2,]*100,type="b",pch=15,col=COLORS[3])
+abline(h=mean(frenchmotor[idx_F,"y"]=="1")*100,col=scales::alpha(COLORS[2],.35),lty=2)
+abline(h=mean(frenchmotor[idx_M,"y"]=="1")*100,col=scales::alpha(COLORS[3],.35),lty=2)
+text(14,mean(frenchmotor[idx_F,"y"]=="1")*100,"femmes",col=COLORS[2],pos=3)
+text(14,mean(frenchmotor[idx_M,"y"]=="1")*100,"hommes",col=COLORS[3],pos=1)
+```
+
+<img
+src="fida.markdown_strict_files/figure-markdown_strict/discrim-2.png"
+data-fig-align="center" />
+
+``` r
+plot(N,M[1,]*100,xlab="Nombre de variables explicatives (sans le genre)",ylab=
+       "Fréquence moyenne d'accident prédite (%)",type="b",pch=19,col=COLORS[2],ylim=c(8.12,9))
+abline(v=(0:3)*5,col=scales::alpha("light blue",.4))
+abline(h=seq(8,9.2,by=.2),col=scales::alpha("light blue",.4))
+lines(N,M[2,]*100,type="b",pch=15,col="black")
+abline(h=mean(frenchmotor[idx_F,"y"]=="1")*100,col=scales::alpha(COLORS[2],.35),lty=2)
+abline(h=mean(frenchmotor[idx_M,"y"]=="1")*100,col=scales::alpha("black",.35),lty=2)
+text(14,mean(frenchmotor[idx_F,"y"]=="1")*100,"femmes",col=COLORS[2],pos=3)
+text(14,mean(frenchmotor[idx_M,"y"]=="1")*100,"hommes",col="black",pos=1)
+```
+
+<img
+src="fida.markdown_strict_files/figure-markdown_strict/discrim-3.png"
+data-fig-align="center" />
+
+``` r
+plot(N,M[1,]*100,xlab="Nombre de variables explicatives (sans le genre)",ylab=
+       "Fréquence moyenne d'accident prédite (%)",type="b",pch=19,col="grey",ylim=c(8.12,9))
+abline(v=(0:3)*5,col=scales::alpha("light blue",.4))
+abline(h=seq(8,9.2,by=.2),col=scales::alpha("light blue",.4))
+lines(N,M[2,]*100,type="b",pch=15,col="black")
+abline(h=mean(frenchmotor[idx_F,"y"]=="1")*100,col=scales::alpha("grey",.35),lty=2)
+abline(h=mean(frenchmotor[idx_M,"y"]=="1")*100,col=scales::alpha("black",.35),lty=2)
+text(14,mean(frenchmotor[idx_F,"y"]=="1")*100,"femmes",col="grey",pos=3)
+text(14,mean(frenchmotor[idx_M,"y"]=="1")*100,"hommes",col="black",pos=1)
+```
+
+<img
+src="fida.markdown_strict_files/figure-markdown_strict/discrim-4.png"
+data-fig-align="center" />
